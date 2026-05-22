@@ -1,0 +1,63 @@
+{
+  "accuracy": 48.0,
+  "balanced_accuracy": 48.0,
+  "macro_f1": 45.24743987521519,
+  "per_class": {
+    "brown_spot": {
+      "precision": 0.3238095238095238,
+      "recall": 0.646,
+      "f1": 0.4313856427378965,
+      "support": 1000
+    },
+    "healthy": {
+      "precision": 0.9139650872817955,
+      "recall": 0.733,
+      "f1": 0.8135405105438401,
+      "support": 1000
+    },
+    "rice_blast": {
+      "precision": 0.29012345679012347,
+      "recall": 0.047,
+      "f1": 0.08089500860585198,
+      "support": 1000
+    },
+    "rice_tungro": {
+      "precision": 0.4745437079731028,
+      "recall": 0.494,
+      "f1": 0.4840764331210191,
+      "support": 1000
+    }
+  },
+  "confusion_matrix": [
+    [
+      646,
+      60,
+      25,
+      269
+    ],
+    [
+      69,
+      733,
+      45,
+      153
+    ],
+    [
+      824,
+      4,
+      47,
+      125
+    ],
+    [
+      456,
+      5,
+      45,
+      494
+    ]
+  ],
+  "classes": [
+    "brown_spot",
+    "healthy",
+    "rice_blast",
+    "rice_tungro"
+  ]
+}

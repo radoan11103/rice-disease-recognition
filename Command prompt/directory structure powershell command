@@ -1,0 +1,8 @@
+Get-ChildItem -Directory -Recurse | ForEach-Object {
+    $fileCount = (Get-ChildItem $_.FullName -File -Recurse -ErrorAction SilentlyContinue).Count
+    
+    if ($fileCount -gt 0) {
+        $relativePath = $_.FullName.Replace((Get-Location).Path + "\", "")
+        "$relativePath : $fileCount files"
+    }
+} | Out-File directory_structure.txt

@@ -1,0 +1,218 @@
+{
+  "model": "efficientnet_b0",
+  "n_images": 20,
+  "mean": {
+    "correlation": 0.32093563184456597,
+    "mae": 0.16875569170322208,
+    "hot_region_iou": 0.33145150702480586,
+    "centroid_shift": 0.14385240466533583
+  },
+  "std": {
+    "correlation": 0.34385305668101657,
+    "mae": 0.07978258199750836,
+    "hot_region_iou": 0.21432495944103308,
+    "centroid_shift": 0.1026313455738671
+  },
+  "per_image": [
+    {
+      "image": "2026_brown_spot_brown spot_279.jpg",
+      "true_class": "brown_spot",
+      "pred_partial": "brown_spot",
+      "pred_full": "brown_spot",
+      "correlation": 0.9310810964054576,
+      "mae": 0.059120696035775556,
+      "hot_region_iou": 0.8319340001460174,
+      "centroid_shift": 0.037599246152376205
+    },
+    {
+      "image": "2026_brown_spot_brown spot_1210.jpg",
+      "true_class": "brown_spot",
+      "pred_partial": "brown_spot",
+      "pred_full": "brown_spot",
+      "correlation": 0.5866189847904841,
+      "mae": 0.13469459432599515,
+      "hot_region_iou": 0.3396699951941048,
+      "centroid_shift": 0.16586862121324655
+    },
+    {
+      "image": "2026_brown_spot_brown spot_1045.jpg",
+      "true_class": "brown_spot",
+      "pred_partial": "brown_spot",
+      "pred_full": "rice_tungro",
+      "correlation": 0.8044477692214759,
+      "mae": 0.092977686217005,
+      "hot_region_iou": 0.5405587964384403,
+      "centroid_shift": 0.09195248130992995
+    },
+    {
+      "image": "2026_brown_spot_brown spot_488.jpg",
+      "true_class": "brown_spot",
+      "pred_partial": "brown_spot",
+      "pred_full": "brown_spot",
+      "correlation": 0.9080865683464356,
+      "mae": 0.07691746303370903,
+      "hot_region_iou": 0.5844385499557914,
+      "centroid_shift": 0.02989103452883654
+    },
+    {
+      "image": "2026_brown_spot_brown spot_152.jpg",
+      "true_class": "brown_spot",
+      "pred_partial": "brown_spot",
+      "pred_full": "brown_spot",
+      "correlation": 0.9475460532555734,
+      "mae": 0.06994074870898453,
+      "hot_region_iou": 0.8580950970226633,
+      "centroid_shift": 0.017242171665968493
+    },
+    {
+      "image": "2026_healthy_Healthy_1452.jpg",
+      "true_class": "healthy",
+      "pred_partial": "rice_blast",
+      "pred_full": "rice_blast",
+      "correlation": -0.1898707344829833,
+      "mae": 0.20196654642366454,
+      "hot_region_iou": 0.07286410673052253,
+      "centroid_shift": 0.3622532855546745
+    },
+    {
+      "image": "2026_healthy_Healthy_1413.jpg",
+      "true_class": "healthy",
+      "pred_partial": "rice_tungro",
+      "pred_full": "rice_tungro",
+      "correlation": -0.045511256747298764,
+      "mae": 0.23539020031624736,
+      "hot_region_iou": 0.14614646626159258,
+      "centroid_shift": 0.05332074109148158
+    },
+    {
+      "image": "2026_healthy_Healthy_1264.jpg",
+      "true_class": "healthy",
+      "pred_partial": "healthy",
+      "pred_full": "healthy",
+      "correlation": 0.3712454820598494,
+      "mae": 0.22381780469048695,
+      "hot_region_iou": 0.3866902498341809,
+      "centroid_shift": 0.13210137442333805
+    },
+    {
+      "image": "2026_healthy_Healthy_98.jpg",
+      "true_class": "healthy",
+      "pred_partial": "brown_spot",
+      "pred_full": "brown_spot",
+      "correlation": 0.3052653810309912,
+      "mae": 0.16276481482320482,
+      "hot_region_iou": 0.37197856283495573,
+      "centroid_shift": 0.1655804439306382
+    },
+    {
+      "image": "2026_healthy_Healthy_120.jpg",
+      "true_class": "healthy",
+      "pred_partial": "brown_spot",
+      "pred_full": "rice_tungro",
+      "correlation": 0.05781685616646855,
+      "mae": 0.15659271502898056,
+      "hot_region_iou": 0.17666635417643198,
+      "centroid_shift": 0.25750965447253493
+    },
+    {
+      "image": "2026_rice_blast_blast_633.jpg",
+      "true_class": "rice_blast",
+      "pred_partial": "rice_tungro",
+      "pred_full": "rice_tungro",
+      "correlation": -0.03920220784153028,
+      "mae": 0.14475634342804874,
+      "hot_region_iou": 0.14472783683898344,
+      "centroid_shift": 0.29827735965147223
+    },
+    {
+      "image": "2026_rice_blast_blast_711.jpg",
+      "true_class": "rice_blast",
+      "pred_partial": "rice_tungro",
+      "pred_full": "rice_blast",
+      "correlation": 0.22363984923770241,
+      "mae": 0.12619949376802325,
+      "hot_region_iou": 0.25,
+      "centroid_shift": 0.19122544109763728
+    },
+    {
+      "image": "2026_rice_blast_blast_892.jpg",
+      "true_class": "rice_blast",
+      "pred_partial": "brown_spot",
+      "pred_full": "brown_spot",
+      "correlation": 0.1035494747784242,
+      "mae": 0.10357781231068254,
+      "hot_region_iou": 0.3463726121485297,
+      "centroid_shift": 0.33687638316897295
+    },
+    {
+      "image": "2026_rice_blast_blast_473.jpg",
+      "true_class": "rice_blast",
+      "pred_partial": "brown_spot",
+      "pred_full": "brown_spot",
+      "correlation": 0.4529089267325356,
+      "mae": 0.11738026818751629,
+      "hot_region_iou": 0.3245253164556962,
+      "centroid_shift": 0.12810997692495033
+    },
+    {
+      "image": "2026_rice_blast_blast_1104.jpg",
+      "true_class": "rice_blast",
+      "pred_partial": "rice_tungro",
+      "pred_full": "brown_spot",
+      "correlation": 0.11271289984699014,
+      "mae": 0.07151338321811553,
+      "hot_region_iou": 0.25,
+      "centroid_shift": 0.20865620093601478
+    },
+    {
+      "image": "2026_rice_tungro_Rice Tungro_227.jpg",
+      "true_class": "rice_tungro",
+      "pred_partial": "rice_tungro",
+      "pred_full": "rice_tungro",
+      "correlation": 0.08047433448355981,
+      "mae": 0.3055757163159152,
+      "hot_region_iou": 0.16099930603747398,
+      "centroid_shift": 0.01129428001447047
+    },
+    {
+      "image": "2026_rice_tungro_Rice Tungro_1899.jpg",
+      "true_class": "rice_tungro",
+      "pred_partial": "rice_tungro",
+      "pred_full": "brown_spot",
+      "correlation": 0.48846447942390053,
+      "mae": 0.2830969717854508,
+      "hot_region_iou": 0.32042105263157894,
+      "centroid_shift": 0.06982198225371096
+    },
+    {
+      "image": "2026_rice_tungro_Rice Tungro_1079.jpg",
+      "true_class": "rice_tungro",
+      "pred_partial": "brown_spot",
+      "pred_full": "brown_spot",
+      "correlation": 0.19734946007951745,
+      "mae": 0.2715071356622554,
+      "hot_region_iou": 0.19820422198872864,
+      "centroid_shift": 0.1399863970874744
+    },
+    {
+      "image": "2026_rice_tungro_Rice Tungro_1071.jpg",
+      "true_class": "rice_tungro",
+      "pred_partial": "brown_spot",
+      "pred_full": "rice_tungro",
+      "correlation": 0.06246358994643224,
+      "mae": 0.28246178056997695,
+      "hot_region_iou": 0.14365119139824137,
+      "centroid_shift": 0.1124912412132264
+    },
+    {
+      "image": "2026_rice_tungro_Rice Tungro_12.jpg",
+      "true_class": "rice_tungro",
+      "pred_partial": "rice_tungro",
+      "pred_full": "rice_tungro",
+      "correlation": 0.059625630157334235,
+      "mae": 0.25486165921440296,
+      "hot_region_iou": 0.18108642440218414,
+      "centroid_shift": 0.06698977661576122
+    }
+  ]
+}

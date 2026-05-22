@@ -1,0 +1,138 @@
+{
+  "model": "dinov2",
+  "mode": "partial",
+  "total_params": 21630340,
+  "trainable_params": 1540,
+  "best_epoch": 6,
+  "epochs_run": 11,
+  "train_minutes": 4.79,
+  "val": {
+    "accuracy": 82.65541059094397,
+    "balanced_accuracy": 82.2107295703527,
+    "macro_f1": 82.31203958640293,
+    "per_class": {
+      "brown_spot": {
+        "precision": 0.7898832684824902,
+        "recall": 0.8185483870967742,
+        "f1": 0.803960396039604,
+        "support": 248
+      },
+      "healthy": {
+        "precision": 0.8732718894009217,
+        "recall": 0.9132530120481928,
+        "f1": 0.8928150765606596,
+        "support": 415
+      },
+      "rice_blast": {
+        "precision": 0.7858942065491183,
+        "recall": 0.7609756097560976,
+        "f1": 0.7732342007434945,
+        "support": 410
+      },
+      "rice_tungro": {
+        "precision": 0.8511627906976744,
+        "recall": 0.7956521739130434,
+        "f1": 0.8224719101123595,
+        "support": 230
+      }
+    },
+    "confusion_matrix": [
+      [
+        203,
+        1,
+        38,
+        6
+      ],
+      [
+        4,
+        379,
+        23,
+        9
+      ],
+      [
+        46,
+        35,
+        312,
+        17
+      ],
+      [
+        4,
+        19,
+        24,
+        183
+      ]
+    ],
+    "classes": [
+      "brown_spot",
+      "healthy",
+      "rice_blast",
+      "rice_tungro"
+    ]
+  },
+  "test": {
+    "accuracy": 50.875,
+    "balanced_accuracy": 50.875,
+    "macro_f1": 47.860199175499964,
+    "per_class": {
+      "brown_spot": {
+        "precision": 0.35394554683894786,
+        "recall": 0.767,
+        "f1": 0.4843700663088096,
+        "support": 1000
+      },
+      "healthy": {
+        "precision": 0.8792710706150342,
+        "recall": 0.772,
+        "f1": 0.8221512247071352,
+        "support": 1000
+      },
+      "rice_blast": {
+        "precision": 0.39408866995073893,
+        "recall": 0.08,
+        "f1": 0.13300083125519535,
+        "support": 1000
+      },
+      "rice_tungro": {
+        "precision": 0.5531914893617021,
+        "recall": 0.416,
+        "f1": 0.4748858447488584,
+        "support": 1000
+      }
+    },
+    "confusion_matrix": [
+      [
+        767,
+        53,
+        29,
+        151
+      ],
+      [
+        109,
+        772,
+        51,
+        68
+      ],
+      [
+        768,
+        35,
+        80,
+        117
+      ],
+      [
+        523,
+        18,
+        43,
+        416
+      ]
+    ],
+    "classes": [
+      "brown_spot",
+      "healthy",
+      "rice_blast",
+      "rice_tungro"
+    ]
+  },
+  "generalization_gap_acc": 31.78,
+  "generalization_gap_f1": 34.452,
+  "future_retention_pct": 58.14
+}

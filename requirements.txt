@@ -1,0 +1,19 @@
+# Rice Disease Recognition -- Python dependencies
+# Recommended: Python 3.10 or 3.11 (64-bit) on Windows.
+#
+# IMPORTANT -- install PyTorch SEPARATELY so it matches your GPU/driver.
+# For the RTX 3050 (CUDA build) run this FIRST (setup.bat does it for you):
+#
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu124
+#
+# Then install everything below with:  pip install -r requirements.txt
+
+timm>=1.0.0
+grad-cam>=1.5.0
+opencv-python>=4.8.0
+pillow>=10.0.0
+numpy>=1.26.0,<3.0
+scikit-learn>=1.3.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+tqdm>=4.66.0

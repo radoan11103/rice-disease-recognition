@@ -1,0 +1,74 @@
+{
+  "tool": "src/select_difficulty_subset.py",
+  "checkpoint": "results\\resnet50_full\\best.pth",
+  "model_name": "resnet50",
+  "finetune_mode": "full",
+  "classes": [
+    "brown_spot",
+    "healthy",
+    "rice_blast",
+    "rice_tungro"
+  ],
+  "data_pool": "data\\RiceCrossYear\\test",
+  "per_class": 1000,
+  "target_band": [
+    0.7,
+    0.8
+  ],
+  "true_accuracy_overall": 0.4735,
+  "true_accuracy_per_class": {
+    "brown_spot": 0.782,
+    "healthy": 0.691,
+    "rice_blast": 0.089,
+    "rice_tungro": 0.332
+  },
+  "selected_total": 4000,
+  "per_class_selection": {
+    "brown_spot": {
+      "ok": true,
+      "in_band": true,
+      "accuracy": 0.782,
+      "window_start": 0,
+      "pool_size": 1000,
+      "confidence_hi": 0.9721484780311584,
+      "confidence_lo": 0.29407718777656555,
+      "true_accuracy": 0.782
+    },
+    "healthy": {
+      "ok": true,
+      "in_band": false,
+      "accuracy": 0.691,
+      "window_start": 0,
+      "pool_size": 1000,
+      "confidence_hi": 0.9575331211090088,
+      "confidence_lo": 0.29664409160614014,
+      "true_accuracy": 0.691
+    },
+    "rice_blast": {
+      "ok": true,
+      "in_band": false,
+      "accuracy": 0.089,
+      "window_start": 0,
+      "pool_size": 1000,
+      "confidence_hi": 0.9707392454147339,
+      "confidence_lo": 0.306464284658432,
+      "true_accuracy": 0.089
+    },
+    "rice_tungro": {
+      "ok": true,
+      "in_band": false,
+      "accuracy": 0.332,
+      "window_start": 0,
+      "pool_size": 1000,
+      "confidence_hi": 0.981485903263092,
+      "confidence_lo": 0.32950758934020996,
+      "true_accuracy": 0.332
+    }
+  },
+  "notes": [
+    "This subset was built by ranking each class's images by THIS model's prediction confidence and taking the window whose accuracy lands in the target band. It is a difficulty stratum, not a measurement.",
+    "The 70-80% accuracy on this subset is a property of the selection, not of the model -- see 'true_accuracy_overall' for the model's real accuracy on the full pool.",
+    "Do NOT use this subset to compare other models: it is biased toward the model that defined it. Compare models on the same untouched test set instead.",
+    "Valid uses: curriculum learning, active-learning pools, sample-efficiency / robustness studies, error analysis."
+  ]
+}
