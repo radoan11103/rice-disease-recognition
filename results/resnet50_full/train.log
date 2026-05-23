@@ -1,0 +1,35 @@
+09:22:13 | INFO    | Run: model=resnet50  mode=full  epochs=15
+09:22:13 | INFO    | Device: NVIDIA GeForce RTX 3050 Laptop GPU (4.0 GB VRAM) | AMP=True
+09:22:14 | INFO    | Classes: ['brown_spot', 'healthy', 'rice_blast', 'rice_tungro']
+09:22:14 | INFO    | Batches/epoch: train=461 val=82 test=250 (batch_size=16, accum=2)
+09:22:14 | INFO    | Parameters: total=23,516,228  trainable=23,516,228  (100.00%)
+09:23:54 | INFO    | Epoch 01/15 | train loss 0.8760 acc 71.88 f1 71.48 | val loss 0.7098 acc 83.58 f1 83.23
+09:23:55 | INFO    |   -> new best (val macro-F1 83.23) saved
+09:24:41 | INFO    | Epoch 02/15 | train loss 0.6575 acc 85.43 f1 85.14 | val loss 0.6318 acc 87.11 f1 86.69
+09:24:41 | INFO    |   -> new best (val macro-F1 86.69) saved
+09:25:27 | INFO    | Epoch 03/15 | train loss 0.6005 acc 88.04 f1 87.71 | val loss 0.6392 acc 87.49 f1 87.00
+09:25:27 | INFO    |   -> new best (val macro-F1 87.00) saved
+09:26:14 | INFO    | Epoch 04/15 | train loss 0.5601 acc 90.10 f1 89.86 | val loss 0.5851 acc 89.56 f1 89.27
+09:26:14 | INFO    |   -> new best (val macro-F1 89.27) saved
+09:27:01 | INFO    | Epoch 05/15 | train loss 0.5368 acc 91.64 f1 91.35 | val loss 0.5857 acc 89.03 f1 88.79
+09:27:48 | INFO    | Epoch 06/15 | train loss 0.5203 acc 92.26 f1 92.09 | val loss 0.5831 acc 90.18 f1 89.94
+09:27:48 | INFO    |   -> new best (val macro-F1 89.94) saved
+09:28:35 | INFO    | Epoch 07/15 | train loss 0.4935 acc 93.55 f1 93.40 | val loss 0.5679 acc 90.94 f1 90.78
+09:28:35 | INFO    |   -> new best (val macro-F1 90.78) saved
+09:29:22 | INFO    | Epoch 08/15 | train loss 0.4777 acc 94.90 f1 94.73 | val loss 0.5767 acc 90.48 f1 90.35
+09:30:10 | INFO    | Epoch 09/15 | train loss 0.4704 acc 94.90 f1 94.74 | val loss 0.5746 acc 90.41 f1 90.17
+09:30:57 | INFO    | Epoch 10/15 | train loss 0.4565 acc 95.81 f1 95.71 | val loss 0.5519 acc 91.79 f1 91.53
+09:30:57 | INFO    |   -> new best (val macro-F1 91.53) saved
+09:31:45 | INFO    | Epoch 11/15 | train loss 0.4464 acc 96.07 f1 95.93 | val loss 0.5466 acc 92.63 f1 92.46
+09:31:45 | INFO    |   -> new best (val macro-F1 92.46) saved
+09:32:32 | INFO    | Epoch 12/15 | train loss 0.4380 acc 96.65 f1 96.51 | val loss 0.5465 acc 92.17 f1 92.01
+09:33:20 | INFO    | Epoch 13/15 | train loss 0.4314 acc 96.90 f1 96.80 | val loss 0.5469 acc 92.10 f1 91.90
+09:34:07 | INFO    | Epoch 14/15 | train loss 0.4305 acc 96.92 f1 96.86 | val loss 0.5422 acc 92.25 f1 92.08
+09:34:54 | INFO    | Epoch 15/15 | train loss 0.4342 acc 96.95 f1 96.85 | val loss 0.5423 acc 92.17 f1 92.03
+09:34:54 | INFO    | Training done in 12.7 min. Best epoch 11 (val macro-F1 92.46).
+09:35:34 | INFO    | ================================================================
+09:35:34 | INFO    | VAL  (2021-2025 holdout): acc 92.63  macro-F1 92.46
+09:35:34 | INFO    | TEST (2026 future)      : acc 47.35  macro-F1 45.12
+09:35:34 | INFO    | Generalization gap (macro-F1): 47.35 points
+09:35:34 | INFO    | Future retention            : 48.8%
+09:35:34 | INFO    | ================================================================

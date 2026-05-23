@@ -1,0 +1,16 @@
+09:06:28 | INFO    | ================================================================
+09:06:28 | INFO    | RICE DISEASE -- CROSS-YEAR PIPELINE
+09:06:28 | INFO    | models=['efficientnet_b0']  modes=['partial']
+09:06:28 | INFO    | run log directory: R:\Anti gravity\Rice Disease Project\results\logs\run_20260521_090628
+09:06:28 | INFO    | ================================================================
+09:06:28 | INFO    | skipping preprocessing
+09:06:28 | INFO    | RUN [01_train_efficientnet_b0_partial]: R:\Anti gravity\Rice Disease Project\.venv\Scripts\python.exe -m src.train --model efficientnet_b0 --mode partial
+09:06:28 | INFO    |   logs -> 01_train_efficientnet_b0_partial.log / 01_train_efficientnet_b0_partial.err
+09:13:27 | INFO    | step [01_train_efficientnet_b0_partial] OK in 7.0 min
+09:13:27 | INFO    | skipping Grad-CAM
+09:13:27 | INFO    | run summary written to R:\Anti gravity\Rice Disease Project\results\logs\run_20260521_090628\run_summary.json
+09:13:27 | INFO    | ================================================================
+09:13:27 | INFO    | PIPELINE COMPLETE in 7.0 min.
+09:13:27 | INFO    | Report: R:\Anti gravity\Rice Disease Project\results\SUMMARY.md
+09:13:27 | INFO    | Logs:   R:\Anti gravity\Rice Disease Project\results\logs\run_20260521_090628
+09:13:27 | INFO    | ================================================================

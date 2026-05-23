@@ -1,0 +1,9 @@
+10:55:38 | INFO    | Grad-CAM analysis for dinov2 on device cuda
+10:55:39 | INFO    | 20 sample images (5 per class), modes=['full', 'partial']
+10:55:50 | INFO    | summary grid: 5 images -> gradcam_summary.png
+10:55:50 | INFO    | ================================================================
+10:55:50 | INFO    | Partial -> full attention change (20 images):
+10:55:50 | INFO    |   CAM correlation : 0.044  (1.0 = identical focus)
+10:55:50 | INFO    |   hot-region IoU  : 0.159
+10:55:50 | INFO    |   centroid shift  : 0.103  (fraction of image diagonal)
+10:55:50 | INFO    | ================================================================

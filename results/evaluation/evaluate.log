@@ -1,0 +1,15 @@
+12:12:50 | INFO    | Device: cuda  |  test directory: results\difficulty_subset
+12:14:09 | INFO    | Device: cuda  |  test directory: results\difficulty_subset\images
+12:15:27 | INFO    |   resnet50 [full]: TEST acc 47.38 macro-F1 45.16  | VAL acc 92.63 macro-F1 92.46
+12:16:36 | INFO    |   resnet50 [partial]: TEST acc 39.92 macro-F1 39.23  | VAL acc 81.35 macro-F1 81.27
+12:17:50 | INFO    |   densenet121 [full]: TEST acc 47.17 macro-F1 44.49  | VAL acc 93.02 macro-F1 93.03
+12:19:03 | INFO    |   densenet121 [partial]: TEST acc 36.58 macro-F1 35.99  | VAL acc 74.67 macro-F1 73.97
+12:20:17 | INFO    |   efficientnet_b0 [full]: TEST acc 48.00 macro-F1 45.25  | VAL acc 92.33 macro-F1 92.17
+12:21:22 | INFO    |   efficientnet_b0 [partial]: TEST acc 37.35 macro-F1 34.42  | VAL acc 78.97 macro-F1 78.81
+12:22:30 | INFO    |   dinov2 [full]: TEST acc 39.27 macro-F1 37.92  | VAL acc 85.88 macro-F1 85.58
+12:23:38 | INFO    |   dinov2 [partial]: TEST acc 50.88 macro-F1 47.86  | VAL acc 82.66 macro-F1 82.31
+12:23:38 | INFO    | ================================================================
+12:23:38 | INFO    | Evaluated 8 checkpoint(s).
+12:23:38 | INFO    | Per-run metrics + confusion matrices -> results\evaluation
+12:23:38 | INFO    | Combined table -> results\evaluation\summary.csv
+12:23:38 | INFO    | ================================================================

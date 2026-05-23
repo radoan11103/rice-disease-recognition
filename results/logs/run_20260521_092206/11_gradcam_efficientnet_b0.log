@@ -1,0 +1,14 @@
+$ R:\Anti gravity\Rice Disease Project\.venv\Scripts\python.exe -m src.gradcam --model efficientnet_b0
+# started 2026-05-21 10:55:12
+
+10:55:19 | INFO    | Grad-CAM analysis for efficientnet_b0 on device cuda
+10:55:19 | INFO    | 20 sample images (5 per class), modes=['full', 'partial']
+10:55:31 | INFO    | summary grid: 5 images -> gradcam_summary.png
+10:55:31 | INFO    | ================================================================
+10:55:31 | INFO    | Partial -> full attention change (20 images):
+10:55:31 | INFO    |   CAM correlation : 0.321  (1.0 = identical focus)
+10:55:31 | INFO    |   hot-region IoU  : 0.331
+10:55:31 | INFO    |   centroid shift  : 0.144  (fraction of image diagonal)
+10:55:31 | INFO    | ================================================================
+
+# finished 2026-05-21 10:55:32 | exit 0

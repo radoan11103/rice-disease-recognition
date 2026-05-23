@@ -1,0 +1,6 @@
+10:55:54 | INFO    | wrote R:\Anti gravity\Rice Disease Project\results\summary.csv
+10:55:56 | INFO    | ================================================================
+10:55:56 | INFO    | Analysis complete. Report: R:\Anti gravity\Rice Disease Project\results\SUMMARY.md
+10:55:56 | INFO    | Average generalization gap: 43.68 macro-F1 points
+10:55:56 | INFO    | Average future retention  : 48.6%
+10:55:56 | INFO    | ================================================================

@@ -1,0 +1,154 @@
+{
+  "run_id": "run_20260521_092206",
+  "started": "2026-05-21 09:22:06",
+  "finished": "2026-05-21 10:55:56",
+  "total_minutes": 93.84,
+  "args": {
+    "models": [
+      "resnet50",
+      "densenet121",
+      "efficientnet_b0",
+      "dinov2"
+    ],
+    "modes": [
+      "full",
+      "partial"
+    ],
+    "skip_preprocess": true,
+    "skip_train": false,
+    "skip_gradcam": false,
+    "skip_analyze": false,
+    "force_preprocess": false,
+    "allow_cpu": false,
+    "continue_on_error": false
+  },
+  "environment": {
+    "python": "3.12.10",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "hostname": "RadoanRedoy",
+    "torch": "2.6.0+cu124",
+    "cuda_available": true,
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU"
+  },
+  "steps": [
+    {
+      "name": "01_train_resnet50_full",
+      "cmd": "R:\\Anti gravity\\Rice Disease Project\\.venv\\Scripts\\python.exe -m src.train --model resnet50 --mode full",
+      "exit_code": 0,
+      "minutes": 13.56,
+      "status": "ok",
+      "log": "01_train_resnet50_full.log",
+      "err": "01_train_resnet50_full.err"
+    },
+    {
+      "name": "02_train_resnet50_partial",
+      "cmd": "R:\\Anti gravity\\Rice Disease Project\\.venv\\Scripts\\python.exe -m src.train --model resnet50 --mode partial",
+      "exit_code": 0,
+      "minutes": 7.1,
+      "status": "ok",
+      "log": "02_train_resnet50_partial.log",
+      "err": "02_train_resnet50_partial.err"
+    },
+    {
+      "name": "03_train_densenet121_full",
+      "cmd": "R:\\Anti gravity\\Rice Disease Project\\.venv\\Scripts\\python.exe -m src.train --model densenet121 --mode full",
+      "exit_code": 0,
+      "minutes": 21.87,
+      "status": "ok",
+      "log": "03_train_densenet121_full.log",
+      "err": "03_train_densenet121_full.err"
+    },
+    {
+      "name": "04_train_densenet121_partial",
+      "cmd": "R:\\Anti gravity\\Rice Disease Project\\.venv\\Scripts\\python.exe -m src.train --model densenet121 --mode partial",
+      "exit_code": 0,
+      "minutes": 10.0,
+      "status": "ok",
+      "log": "04_train_densenet121_partial.log",
+      "err": "04_train_densenet121_partial.err"
+    },
+    {
+      "name": "05_train_efficientnet_b0_full",
+      "cmd": "R:\\Anti gravity\\Rice Disease Project\\.venv\\Scripts\\python.exe -m src.train --model efficientnet_b0 --mode full",
+      "exit_code": 0,
+      "minutes": 10.7,
+      "status": "ok",
+      "log": "05_train_efficientnet_b0_full.log",
+      "err": "05_train_efficientnet_b0_full.err"
+    },
+    {
+      "name": "06_train_efficientnet_b0_partial",
+      "cmd": "R:\\Anti gravity\\Rice Disease Project\\.venv\\Scripts\\python.exe -m src.train --model efficientnet_b0 --mode partial",
+      "exit_code": 0,
+      "minutes": 6.84,
+      "status": "ok",
+      "log": "06_train_efficientnet_b0_partial.log",
+      "err": "06_train_efficientnet_b0_partial.err"
+    },
+    {
+      "name": "07_train_dinov2_full",
+      "cmd": "R:\\Anti gravity\\Rice Disease Project\\.venv\\Scripts\\python.exe -m src.train --model dinov2 --mode full",
+      "exit_code": 0,
+      "minutes": 16.54,
+      "status": "ok",
+      "log": "07_train_dinov2_full.log",
+      "err": "07_train_dinov2_full.err"
+    },
+    {
+      "name": "08_train_dinov2_partial",
+      "cmd": "R:\\Anti gravity\\Rice Disease Project\\.venv\\Scripts\\python.exe -m src.train --model dinov2 --mode partial",
+      "exit_code": 0,
+      "minutes": 5.68,
+      "status": "ok",
+      "log": "08_train_dinov2_partial.log",
+      "err": "08_train_dinov2_partial.err"
+    },
+    {
+      "name": "09_gradcam_resnet50",
+      "cmd": "R:\\Anti gravity\\Rice Disease Project\\.venv\\Scripts\\python.exe -m src.gradcam --model resnet50",
+      "exit_code": 0,
+      "minutes": 0.41,
+      "status": "ok",
+      "log": "09_gradcam_resnet50.log",
+      "err": "09_gradcam_resnet50.err"
+    },
+    {
+      "name": "10_gradcam_densenet121",
+      "cmd": "R:\\Anti gravity\\Rice Disease Project\\.venv\\Scripts\\python.exe -m src.gradcam --model densenet121",
+      "exit_code": 0,
+      "minutes": 0.39,
+      "status": "ok",
+      "log": "10_gradcam_densenet121.log",
+      "err": "10_gradcam_densenet121.err"
+    },
+    {
+      "name": "11_gradcam_efficientnet_b0",
+      "cmd": "R:\\Anti gravity\\Rice Disease Project\\.venv\\Scripts\\python.exe -m src.gradcam --model efficientnet_b0",
+      "exit_code": 0,
+      "minutes": 0.33,
+      "status": "ok",
+      "log": "11_gradcam_efficientnet_b0.log",
+      "err": "11_gradcam_efficientnet_b0.err"
+    },
+    {
+      "name": "12_gradcam_dinov2",
+      "cmd": "R:\\Anti gravity\\Rice Disease Project\\.venv\\Scripts\\python.exe -m src.gradcam --model dinov2",
+      "exit_code": 0,
+      "minutes": 0.32,
+      "status": "ok",
+      "log": "12_gradcam_dinov2.log",
+      "err": "12_gradcam_dinov2.err"
+    },
+    {
+      "name": "13_analyze",
+      "cmd": "R:\\Anti gravity\\Rice Disease Project\\.venv\\Scripts\\python.exe -m src.analyze",
+      "exit_code": 0,
+      "minutes": 0.09,
+      "status": "ok",
+      "log": "13_analyze.log",
+      "err": "13_analyze.err"
+    }
+  ],
+  "failures": [],
+  "status": "completed"
+}

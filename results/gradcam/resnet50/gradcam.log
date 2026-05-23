@@ -1,0 +1,9 @@
+10:54:34 | INFO    | Grad-CAM analysis for resnet50 on device cuda
+10:54:35 | INFO    | 20 sample images (5 per class), modes=['full', 'partial']
+10:54:47 | INFO    | summary grid: 5 images -> gradcam_summary.png
+10:54:47 | INFO    | ================================================================
+10:54:47 | INFO    | Partial -> full attention change (20 images):
+10:54:47 | INFO    |   CAM correlation : 0.459  (1.0 = identical focus)
+10:54:47 | INFO    |   hot-region IoU  : 0.373
+10:54:47 | INFO    |   centroid shift  : 0.085  (fraction of image diagonal)
+10:54:47 | INFO    | ================================================================
