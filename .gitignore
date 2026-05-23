@@ -1,58 +1,27 @@
-# ====================================
-# Python Cache
-# ====================================
-__pycache__/
-*.py[cod]
-*$py.class
-
-# ====================================
-# Virtual Environments
-# ====================================
-venv/
+# Virtual environment
 .venv/
-env/
 
-# ====================================
-# Model Checkpoints
-# ====================================
+# Large datasets
+data/
+Rice Disease/
+
+# Model weights
 *.pth
 *.pt
 *.ckpt
-*.onnx
 
-# ====================================
-# Dataset
-# ====================================
-data/
-datasets/
+# Large result subsets
+results/difficulty_subset/
 
-# ====================================
-# Huge Generated Image Outputs
-# ====================================
-results/difficulty_subset/images/
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 
-# ====================================
-# Temporary Logs / Cache
-# ====================================
-results/logs/
-results/cache/
-results/temp/
-*.log
-
-# ====================================
-# Jupyter
-# ====================================
-.ipynb_checkpoints/
-
-# ====================================
-# IDE
-# ====================================
-.vscode/
-.idea/
-
-# ====================================
-# OS Files
-# ====================================
+# OS files
 .DS_Store
 Thumbs.db
-desktop.ini
+
+# Jupyter
+.ipynb_checkpoints/
