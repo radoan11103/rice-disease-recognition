@@ -25,3 +25,9 @@ Thumbs.db
 
 # Jupyter
 .ipynb_checkpoints/
+# Generated experiment outputs
+# Keep full seed folders/checkpoints local; commit compact summaries only.
+results/*
+!results/MULTI_SEED_SUMMARY.md
+!results/multi_seed_summary.csv
+!results/multi_seed_summary.json

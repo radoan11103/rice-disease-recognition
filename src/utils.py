@@ -18,10 +18,13 @@ def set_seed(seed: int) -> None:
     """Seed every RNG so runs are reproducible."""
     random.seed(seed)
     np.random.seed(seed)
+
     torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
-    # Inputs are a fixed size, so let cuDNN pick the fastest kernels.
-    torch.backends.cudnn.benchmark = True
+
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
 
 
 def seed_worker(worker_id: int) -> None:
@@ -95,8 +98,13 @@ def make_run_log_dir(results_dir: Path) -> Path:
     return run_dir
 
 
-def stream_subprocess(cmd: list[str], cwd, log_path: Path,
-                      err_path: Path) -> int:
+def stream_subprocess(
+    cmd: list[str],
+    cwd,
+    log_path: Path,
+    err_path: Path,
+    env: dict | None = None,
+) -> int:
     """Run ``cmd``, teeing its output live to the console while persisting it.
 
     Writes a merged ``log_path`` (stdout + stderr in chronological order) and a
@@ -117,11 +125,16 @@ def stream_subprocess(cmd: list[str], cwd, log_path: Path,
         # text mode -> universal newlines, so tqdm's '\r' progress updates are
         # split into individual lines, just as they appear in a SLURM .err file.
         proc = subprocess.Popen(
-            cmd, cwd=str(cwd),
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-            text=True, encoding="utf-8", errors="replace", bufsize=1,
+            cmd,
+            cwd=str(cwd),
+            env=env,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            bufsize=1,
         )
-
         def pump(src, console, is_err: bool) -> None:
             """Forward one stream to the console, the merged log, and (stderr
             only) the .err file. Whole-line writes under a lock keep the merged

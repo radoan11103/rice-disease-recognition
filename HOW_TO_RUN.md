@@ -1,193 +1,169 @@
-# How to Run — Quick Start
+# How to Run - Quick Start
 
-A short, copy-paste guide for running the rice-disease cross-year pipeline.
-For the full documentation see [`README.md`](README.md).
+This guide matches the current multi-seed research pipeline. The current reported experiment uses 10 seeds:
 
-**What this does:** trains 4 models (ResNet-50, DenseNet-121, EfficientNet-B0,
-DINOv2) on rice-leaf images from **2021–2025** and tests them on **2026** to
-measure how well "training on the past" predicts the future — each model in
-both **full** and **partial** fine-tuning modes, with Grad-CAM analysis.
-
----
-
-## Requirements
-
-- A **Windows** PC with an **NVIDIA GPU** (built/tuned for an RTX 3050, 4 GB).
-- **Python 3.10 or 3.11 (64-bit)** — install from python.org, tick
-  *"Add Python to PATH"*.
-- A recent **NVIDIA driver** (no separate CUDA Toolkit needed).
-- The **`Rice Disease`** dataset folder (year subfolders `2021` … `2026`).
-
----
-
-## Step 1 — Get the code
-
-```bat
-git clone https://github.com/radoan11103/rice-disease-recognition.git
-cd rice-disease-recognition
+```text
+42, 43, 44, 45, 46, 47, 48, 49, 50, 51
 ```
 
-## Step 2 — Set up the environment (one time)
+That gives:
 
-In a **Command Prompt**, inside the project folder:
+```text
+10 seeds x 4 models x 2 fine-tuning modes = 80 training runs
+```
+
+For full context, see `README.md`.
+
+## 1. Setup
+
+From the project root:
 
 ```bat
 setup.bat
 ```
 
-This creates a `.venv`, installs PyTorch (CUDA build) + all dependencies, and
-prints the GPU it found. You want to see `CUDA available: True`.
-If it says `False`, update the NVIDIA driver and run `setup.bat` again.
+This creates `.venv`, installs PyTorch and the project dependencies, and checks CUDA.
 
-## Step 3 — Point it at the dataset
+## 2. Point the project at the dataset
 
-Open **`run_all.bat`** in Notepad and edit this one line so it points at your
-`Rice Disease` folder (no quotes, even with spaces):
+Open `run_all.bat` and set `RICE_RAW_DIR` to the folder that directly contains the year folders:
 
 ```bat
 set RICE_RAW_DIR=R:\Anti gravity\Rice Disease Project\Rice Disease
 ```
 
-The folder must directly contain the year subfolders — see
-`directory_structure.txt` for the expected layout.
+Expected layout:
 
-## Step 4 — Smoke test (~5–10 min, recommended)
-
-Confirm everything works before the long run:
-
-```bat
-run_all.bat --skip-gradcam --skip-analyze --models efficientnet_b0 --modes partial
+```text
+Rice Disease/
+  2021/
+  2022/
+  2023/
+  2024/
+  2025/
+  2026/
 ```
 
-If that finishes without errors, you're good.
+## 3. Smoke test
 
-## Step 5 — Run the full pipeline
+Run one small training path before launching the long experiment:
 
 ```bat
-run_all.bat
+run_all.bat --skip-gradcam --skip-analyze --models efficientnet_b0 --modes partial --seeds 42
 ```
 
-Runs everything in order: preprocessing → 8 training runs → Grad-CAM →
-final report. Expect **~3–6 hours** on an RTX 3050. Keep the window open;
-progress is also written to `results\pipeline.log`.
+## 4. Run the full 10-seed experiment
 
-## Step 6 — Look at the results
+```bat
+run_all.bat --runs 10 --start-seed 42
+```
 
-Open **`results\SUMMARY.md`** — the main report. Also useful:
+Equivalent explicit form:
+
+```bat
+python run_pipeline.py --seeds 42 43 44 45 46 47 48 49 50 51
+```
+
+If preprocessing is already done:
+
+```bat
+python run_pipeline.py --skip-preprocess --seeds 42 43 44 45 46 47 48 49 50 51
+```
+
+## 5. Rebuild only the 10-seed summary
+
+Use this when the seed folders already exist and you only need to regenerate the aggregate files:
+
+```bat
+python run_pipeline.py --aggregate-only --seeds 42 43 44 45 46 47 48 49 50 51
+```
+
+This does not train, evaluate, or run Grad-CAM. It only reads:
+
+```text
+results\experiment_seed_<seed>\<model>_<mode>\summary.json
+```
+
+and rewrites:
+
+```text
+results\MULTI_SEED_SUMMARY.md
+results\multi_seed_summary.csv
+results\multi_seed_summary.json
+```
+
+## 6. Output locations
+
+Each seed has its own folder:
+
+```text
+results\experiment_seed_42\
+results\experiment_seed_43\
+...
+results\experiment_seed_51\
+```
+
+Main aggregate files:
 
 | File | Shows |
 |---|---|
-| `results\SUMMARY.md` | Full report + headline numbers |
-| `results\analysis\generalization_gap.png` | Accuracy lost going 2025 → 2026 |
-| `results\analysis\attention_change.png` | How attention moves: partial → full |
-| `results\analysis\per_class_f1.png` | Per-class F1 for every run |
-| `results\gradcam\<model>\gradcam_summary.png` | 5-image Grad-CAM comparison |
-| `results\<model>_<mode>\training_curves.png` | Loss & F1 curves |
-| `results\<model>_<mode>\confusion_matrix_test.png` | Confusion matrix on 2026 |
+| `results\MULTI_SEED_SUMMARY.md` | Mean +/- std across the 10 seeds |
+| `results\multi_seed_summary.csv` | Per-seed metrics for statistical analysis |
+| `results\multi_seed_summary.json` | Full machine-readable aggregate |
 
----
-
-## Re-run evaluation only
-
-`src/evaluate.py` scores already-trained checkpoints on a test directory —
-**no training, no weights changed**. Use it when you have the `best.pth` files
-and just want fresh metrics.
-
-**You need first:** the trained checkpoints at `results\<model>_<mode>\best.pth`.
-
-**Run it:**
-
-1. Open `run_eval.bat` and check the variables at the top:
-   - `TEST_DIR` — the test image folder (one subfolder per class);
-   - `VAL_DIR` — optional, used for the generalization gap (skipped if absent);
-   - `OUT_DIR` — where results are written.
-2. Run it:
-
-   ```bat
-   run_eval.bat
-   ```
-
-   That evaluates all 8 checkpoints. To narrow it down, extra args pass through:
-
-   ```bat
-   run_eval.bat --model resnet50 --mode full
-   ```
-
-**Outputs** (in `results\evaluation\` — kept separate, nothing overwritten):
+Per-seed files:
 
 | File | Shows |
 |---|---|
-| `summary.csv` | every run — val/test accuracy, macro-F1, generalization gap, retention |
-| `<model>_<mode>\test_metrics.json` | per-run metrics (accuracy, per-class F1, confusion matrix) |
-| `<model>_<mode>\confusion_matrix_test.png` | per-run confusion matrix |
-| `<model>_<mode>\eval_summary.json` | full per-run summary |
+| `results\experiment_seed_<seed>\SUMMARY.md` | Report for one seed |
+| `results\experiment_seed_<seed>\summary.csv` | Per-seed table across all 8 model/mode runs |
+| `results\experiment_seed_<seed>\<model>_<mode>\summary.json` | Metrics for one training run |
+| `results\experiment_seed_<seed>\<model>_<mode>\best.pth` | Best checkpoint |
 
----
+## Useful variations
 
-## Optional — difficulty-stratified subset selection
-
-`src/select_difficulty_subset.py` takes one trained checkpoint and, for each
-class, selects the window of images whose accuracy falls in a target band
-(default 70–80%), ranking images by the model's prediction confidence.
-
-- **What it is for:** difficulty-aware data selection — curriculum learning,
-  active-learning pools, error analysis.
-- **What it is _not_:** a test set or a performance benchmark. The band
-  accuracy is a property of the selection, not of the model — the model's real
-  accuracy is recorded in the output `manifest.json`. A subset defined by one
-  model's scores must not be used to compare other models.
-
-**You need first:**
-
-- a trained checkpoint at `results\<model>_<mode>\best.pth` (run Step 5 first);
-- a candidate pool with **more than `PER_CLASS` images per class** — the
-  processed `test\` set is capped at 1000/class, so point `DATA_DIR` at a
-  larger pool.
-
-**Run it:**
-
-1. Open `run_select_subset.bat` and edit the variables at the top
-   (`CHECKPOINT`, `DATA_DIR`, `PER_CLASS`, `TARGET_LO`/`TARGET_HI`, `OUT_DIR`,
-   `COPY_IMAGES`).
-2. Run it:
-
-   ```bat
-   run_select_subset.bat
-   ```
-
-   Or call the script directly:
-
-   ```bat
-   python -m src.select_difficulty_subset --checkpoint results\resnet50_full\best.pth --data-dir <pool> --copy-images
-   ```
-
-**Outputs** (in `results\difficulty_subset\` by default):
-
-| File | Shows |
-|---|---|
-| `selected_images.csv` | the chosen images — path, confidence, predicted class |
-| `manifest.json` | model, target band, the model's **true** accuracy, caveats |
-| `selection_overview.png` | per class: every window's accuracy, selected window marked |
-| `images\<class>\` | copies of the selected files (only when `COPY_IMAGES=yes`) |
-
----
-
-## Handy variations
+Run only selected models:
 
 ```bat
-run_all.bat --skip-preprocess        REM dataset already processed
-run_all.bat --models resnet50 dinov2 REM only some models
-run_all.bat --continue-on-error      REM keep going if one run fails
+python run_pipeline.py --skip-preprocess --models resnet50 dinov2 --seeds 42 43
 ```
+
+Run only one fine-tuning mode:
+
+```bat
+python run_pipeline.py --skip-preprocess --modes partial --seeds 42 43 44
+```
+
+Continue even if one step fails:
+
+```bat
+python run_pipeline.py --continue-on-error --seeds 42 43 44 45 46 47 48 49 50 51
+```
+
+## Updating GitHub
+
+Before pushing, check what changed:
+
+```bat
+git status
+```
+
+Recommended source/doc summary commit:
+
+```bat
+git add README.md HOW_TO_RUN.md config.py run_pipeline.py src\train.py src\utils.py results\MULTI_SEED_SUMMARY.md results\multi_seed_summary.csv results\multi_seed_summary.json
+git commit -m "Document 10-seed cross-year experiment pipeline"
+git push origin main
+```
+
+Avoid committing the full `results\experiment_seed_*` folders unless you intentionally want to upload thousands of generated files and checkpoints. Use Git LFS or a separate release/archive for large artifacts.
 
 ## Troubleshooting
 
 | Problem | Fix |
 |---|---|
-| `CUDA out of memory` | Lower that model's batch size in `config.py` (`BATCH_SIZE`). |
-| PC slows down / swaps | Add `set RICE_NUM_WORKERS=2` near the top of `run_all.bat`. |
-| `no CUDA GPU detected` | Update the NVIDIA driver; re-run `setup.bat`. |
-| `Raw data folder not found` | Fix the `RICE_RAW_DIR` path in `run_all.bat`. |
-| `python` not recognized | Reinstall Python with *"Add to PATH"* ticked. |
-
-Full details, methodology, and how to read the figures: see [`README.md`](README.md).
+| `run_pipeline.py` not found | Restore `run_pipeline.py` in the project root and run commands from the project root. |
+| CUDA out of memory | Lower batch sizes in `config.py`. |
+| No CUDA GPU detected | Update NVIDIA driver or pass `--allow-cpu`. |
+| Raw data folder not found | Fix `RICE_RAW_DIR` in `run_all.bat` or `run_all.ps1`. |
+| Old seed missing from summary | Put its results in `results\experiment_seed_<seed>\` and run `--aggregate-only`. |

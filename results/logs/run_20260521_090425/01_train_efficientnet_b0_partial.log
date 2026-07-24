@@ -1,9 +1,0 @@
-$ R:\Anti gravity\Rice Disease Project\.venv\Scripts\python.exe -m src.train --model efficientnet_b0 --mode partial
-# started 2026-05-21 09:04:25
-
-Matplotlib is building the font cache; this may take a moment.
-09:05:04 | INFO    | Run: model=efficientnet_b0  mode=partial  epochs=15
-09:05:04 | INFO    | Device: NVIDIA GeForce RTX 3050 Laptop GPU (4.0 GB VRAM) | AMP=True
-Processed data not found at R:\Anti gravity\Rice Disease Project\data\RiceCrossYear. Run 'python -m src.preprocess' first.
-
-# finished 2026-05-21 09:05:05 | exit 1

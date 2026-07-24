@@ -61,6 +61,18 @@ VAL_SPLIT = 0.15               # fraction of the 2021-2025 pool kept for validat
 TEST_IMAGES_PER_CLASS = 1000   # balanced future-year test set (capped per class)
 RANDOM_SEED = 42
 
+# ---------------------------------------------------------------------------
+# EXPERIMENT
+# ---------------------------------------------------------------------------
+
+def experiment_dir() -> Path:
+    """Directory for the current experiment."""
+    experiment_name = os.environ.get(
+        "RICE_EXPERIMENT_NAME",
+        f"experiment_seed_{RANDOM_SEED}",
+    )
+    return RESULTS_DIR / experiment_name
+
 VALID_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp", ".tif", ".tiff"}
 
 # ---------------------------------------------------------------------------
@@ -116,4 +128,4 @@ IMAGENET_STD = [0.229, 0.224, 0.225]
 
 def run_dir(model: str, mode: str) -> Path:
     """Directory that holds every artefact for one (model, mode) training run."""
-    return RESULTS_DIR / f"{model}_{mode}"
+    return experiment_dir() / f"{model}_{mode}"

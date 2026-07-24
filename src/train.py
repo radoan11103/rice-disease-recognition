@@ -35,11 +35,22 @@ def main() -> None:
     parser.add_argument("--model", required=True, choices=config.MODELS)
     parser.add_argument("--mode", required=True, choices=config.FINETUNE_MODES)
     parser.add_argument("--epochs", type=int, default=config.EPOCHS)
-    parser.add_argument("--allow-cpu", action="store_true",
-                        help="run on CPU if no GPU is available (very slow)")
+
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=config.RANDOM_SEED,
+        help="Random seed for this training run",
+    )
+
+    parser.add_argument(
+        "--allow-cpu",
+        action="store_true",
+        help="run on CPU if no GPU is available (very slow)",
+    )
     args = parser.parse_args()
 
-    set_seed(config.RANDOM_SEED)
+    set_seed(args.seed)
     out_dir = config.run_dir(args.model, args.mode)
     out_dir.mkdir(parents=True, exist_ok=True)
     logger = get_logger(f"train.{args.model}.{args.mode}",
@@ -47,8 +58,12 @@ def main() -> None:
 
     device = get_device(allow_cpu=args.allow_cpu)
     use_amp = config.USE_AMP and device.type == "cuda"
-    logger.info(f"Run: model={args.model}  mode={args.mode}  "
-                f"epochs={args.epochs}")
+    logger.info(
+        f"Run: model={args.model}  "
+        f"mode={args.mode}  "
+        f"epochs={args.epochs}  "
+        f"seed={args.seed}"
+    )
     logger.info(f"Device: {describe_device(device)} | AMP={use_amp}")
 
     if not (config.PROCESSED_DIR / "train").exists():
@@ -59,8 +74,12 @@ def main() -> None:
     # ----- data -----------------------------------------------------------
     batch_size = config.BATCH_SIZE[args.model]
     train_loader, val_loader, test_loader, classes = build_dataloaders(
-        config.PROCESSED_DIR, config.IMAGE_SIZE, batch_size,
-        config.NUM_WORKERS, config.RANDOM_SEED)
+        config.PROCESSED_DIR,
+        config.IMAGE_SIZE,
+        batch_size,
+        config.NUM_WORKERS,
+        args.seed,
+    )
     logger.info(f"Classes: {classes}")
     logger.info(f"Batches/epoch: train={len(train_loader)} "
                 f"val={len(val_loader)} test={len(test_loader)} "

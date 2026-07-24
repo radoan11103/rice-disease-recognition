@@ -1,9 +1,0 @@
-10:54:56 | INFO    | Grad-CAM analysis for densenet121 on device cuda
-10:54:56 | INFO    | 20 sample images (5 per class), modes=['full', 'partial']
-10:55:11 | INFO    | summary grid: 5 images -> gradcam_summary.png
-10:55:11 | INFO    | ================================================================
-10:55:11 | INFO    | Partial -> full attention change (20 images):
-10:55:11 | INFO    |   CAM correlation : 0.447  (1.0 = identical focus)
-10:55:11 | INFO    |   hot-region IoU  : 0.400
-10:55:11 | INFO    |   centroid shift  : 0.091  (fraction of image diagonal)
-10:55:11 | INFO    | ================================================================

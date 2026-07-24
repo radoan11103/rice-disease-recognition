@@ -1,463 +1,297 @@
-````markdown
-# Rice Disease Recognition — Cross-Year Generalization Study
+# Rice Disease Recognition - Cross-Year Generalization Study
 
-> ⚠️ Models achieving very high historical validation accuracy may still fail severely on future-year field data.
+This project studies a practical deployment question: can a rice-leaf disease classifier trained on historical images generalize to future-year field images?
 
-Can a rice-leaf disease classifier **trained on the past predict the future?**
+The experiment trains deep models on rice disease data from 2021-2025 and evaluates them on a held-out 2026 test set. The current research pipeline is multi-seed: each model/mode is trained across 10 random seeds so the final comparison is based on mean and variation, not a single lucky run.
 
-This project evaluates how well deep-learning models trained on historical rice disease data (**2021–2025**) generalize to a completely unseen future-year dataset (**2026**). The study focuses on **temporal robustness** — how much performance is lost when models encounter future real-world field images.
+## Study Design
 
-The project compares:
+Classes:
 
-- **Full fine-tuning** vs **partial fine-tuning**
-- **CNNs** vs **self-supervised transformers**
-- Cross-year generalization behavior
-- Grad-CAM attention shifts between training strategies
+- brown_spot
+- healthy
+- rice_blast
+- rice_tungro
 
-The pipeline trains 4 architectures in 2 fine-tuning modes:
+Temporal split:
+
+| Years | Usage |
+|---|---|
+| 2021-2025 | Train + validation |
+| 2026 | Future-year test |
+
+Models:
 
 | Model | Type | Pretraining |
 |---|---|---|
 | ResNet50 | CNN | ImageNet |
 | DenseNet121 | CNN | ImageNet |
 | EfficientNet-B0 | CNN | ImageNet |
-| DINOv2 (ViT-S/14) | Transformer | Self-supervised |
+| DINOv2 ViT-S/14 | Transformer | Self-supervised |
 
-Total experiments:
-
-```text
-4 models × 2 tuning modes = 8 training runs
-```
-
-Classes:
-- brown_spot
-- healthy
-- rice_blast
-- rice_tungro
-
----
-
-# TL;DR
-
-CNNs achieved over **92% validation Macro-F1** on historical data but lost more than half of their effective performance on unseen future-year images.  
-Partial fine-tuning of **DINOv2** achieved the strongest future robustness and the highest future retention.
-
----
-
-# Why This Matters
-
-Real agricultural deployments face changing environmental conditions over time:
-- different lighting
-- different devices
-- seasonal variation
-- geographic variation
-- changing disease appearance
-
-Models that perform well on historical benchmark datasets may still fail under future real-world field conditions. This project studies that temporal reliability problem directly using a strict cross-year evaluation protocol.
-
----
-
-# Key Experimental Findings
-
-The experiments revealed a severe temporal generalization gap between historical rice disease data (**2021–2025**) and future-year field data (**2026**).
-
-| Model | Mode | Validation Macro-F1 | Future Macro-F1 | Future Retention |
-|---|---|---:|---:|---:|
-| ResNet50 | Full | 92.46 | 45.12 | 48.8% |
-| DenseNet121 | Full | 93.03 | 44.49 | 47.8% |
-| EfficientNet-B0 | Full | 92.25 | 45.25 | 49.0% |
-| DINOv2 | Partial | 82.31 | **47.86** | **58.1%** |
-
-## Main Observations
-
-- Models achieved very high validation performance on historical data but experienced substantial degradation on unseen future-year images.
-- Fully fine-tuned CNNs produced the highest validation scores but did not generalize best to future-year data.
-- Partial fine-tuning of DINOv2 achieved the strongest future robustness.
-- The results suggest that frozen self-supervised transformer representations preserve more transferable features under temporal distribution shift than fully fine-tuned CNNs.
-- Average future retention across all experiments was approximately **48.6%**, highlighting the difficulty of real-world deployment across years.
-
----
-
-# Example Outputs
-
-## Generalization Gap Analysis
-
-```text
-results/analysis/generalization_gap.png
-```
-
-## Grad-CAM Comparison
-
-```text
-results/gradcam/dinov2/gradcam_summary.png
-```
-
-## Per-Class Future Robustness
-
-```text
-results/analysis/per_class_f1.png
-```
-
----
-
-# Research Questions
-
-## 1. Cross-Year Generalization
-
-Train on:
-
-```text
-2021–2025
-```
-
-Test on:
-
-```text
-2026
-```
-
-The project measures:
-- generalization gap
-- future retention
-- temporal robustness
-- per-class degradation
-
----
-
-## 2. Full vs Partial Fine-Tuning
-
-Each model is trained twice:
+Fine-tuning modes:
 
 | Mode | Description |
 |---|---|
-| Full | Entire network is updated |
-| Partial | Backbone frozen, classifier head trained |
+| full | Update the entire network |
+| partial | Freeze the backbone and train only the classifier head |
 
-The study compares:
-- validation accuracy
-- future-year robustness
-- Grad-CAM attention behavior
-- feature transferability
-
----
-
-# Dataset Structure
-
-Expected raw-data structure:
+Current experiment count:
 
 ```text
-Rice Disease/
-├── 2021/
-├── 2022/
-├── 2023/
-├── 2024/
-├── 2025/
-└── 2026/
+10 seeds x 4 models x 2 fine-tuning modes = 80 training runs
 ```
 
-Recognized classes:
-- Brown Spot
-- Healthy Leaf
-- Rice Blast
-- Rice Tungro
-
-Temporal split:
-
-| Years | Usage |
-|---|---|
-| 2021–2025 | Train + Validation |
-| 2026 | Future Test |
-
----
-
-# Hardware
-
-The pipeline was designed and optimized for:
-
-| Component | Specification |
-|---|---|
-| GPU | NVIDIA RTX 3050 Laptop GPU (4 GB VRAM) |
-| CPU | Ryzen 5 5600H |
-| RAM | 16 GB |
-| OS | Windows |
-
-Optimizations:
-- mixed precision (AMP)
-- gradient accumulation
-- reduced batch sizes
-- sequential subprocess execution
-
----
-
-# Project Structure
+The 10 seeds used in the current results are:
 
 ```text
-RICE/
-├── config.py
-├── run_pipeline.py
-├── run_all.bat
-├── run_all.ps1
-├── setup.bat
-├── requirements.txt
-├── README.md
-├── HOW_TO_RUN.md
-├── src/
-│   ├── preprocess.py
-│   ├── dataset.py
-│   ├── models.py
-│   ├── engine.py
-│   ├── metrics.py
-│   ├── train.py
-│   ├── gradcam.py
-│   ├── analyze.py
-│   └── utils.py
-├── data/                  # ignored from GitHub
-└── results/               # experiment outputs
+42, 43, 44, 45, 46, 47, 48, 49, 50, 51
 ```
 
----
+## Main Findings From The 10-Seed Run
 
-# Installation
+The multi-seed summary is written to `results/MULTI_SEED_SUMMARY.md` and `results/multi_seed_summary.csv`.
 
-## Requirements
+| Model | Mode | N | Test Macro-F1 | Val Macro-F1 | Gap Macro-F1 | Retention |
+|---|---|---:|---:|---:|---:|---:|
+| ResNet50 | full | 10 | 43.82 +/- 1.37 | 93.02 +/- 0.32 | 49.20 +/- 1.35 | 47.11 +/- 1.45 |
+| ResNet50 | partial | 10 | 39.24 +/- 0.47 | 80.83 +/- 0.33 | 41.59 +/- 0.55 | 48.54 +/- 0.59 |
+| DenseNet121 | full | 10 | 44.94 +/- 1.75 | 92.86 +/- 0.24 | 47.92 +/- 1.80 | 48.40 +/- 1.91 |
+| DenseNet121 | partial | 10 | 36.48 +/- 1.52 | 74.12 +/- 0.55 | 37.64 +/- 1.69 | 49.22 +/- 2.13 |
+| EfficientNet-B0 | full | 10 | 44.64 +/- 0.99 | 92.30 +/- 0.28 | 47.65 +/- 0.97 | 48.37 +/- 1.05 |
+| EfficientNet-B0 | partial | 10 | 33.32 +/- 0.69 | 78.96 +/- 0.37 | 45.63 +/- 0.93 | 42.21 +/- 0.98 |
+| DINOv2 | full | 10 | 38.03 +/- 0.98 | 85.04 +/- 0.94 | 47.01 +/- 1.18 | 44.73 +/- 1.13 |
+| DINOv2 | partial | 10 | 47.11 +/- 1.26 | 81.74 +/- 0.61 | 34.63 +/- 1.71 | 57.65 +/- 1.86 |
 
+Key observations:
+
+- Validation Macro-F1 on historical data is high for fully fine-tuned CNNs, but future-year Macro-F1 drops sharply on 2026 images.
+- DINOv2 with partial fine-tuning has the strongest future-year Macro-F1 and future retention across the 10-seed experiment.
+- Multi-seed reporting matters because some per-seed values move by several Macro-F1 points.
+
+## Repository Layout
+
+```text
+config.py                 central paths, classes, hyperparameters
+run_pipeline.py           multi-seed pipeline and aggregation entry point
+run_all.bat / run_all.ps1 Windows wrappers around run_pipeline.py
+src/preprocess.py         builds the cross-year dataset
+src/train.py              trains one model/mode/seed
+src/gradcam.py            Grad-CAM comparison for full vs partial checkpoints
+src/analyze.py            per-seed report and plots
+src/evaluate.py           evaluation-only helper for existing checkpoints
+src/select_difficulty_subset.py optional difficulty-stratified subset selector
+```
+
+Ignored local folders:
+
+```text
+data/          processed dataset
+Rice Disease/  raw dataset
+.venv/         virtual environment
+```
+
+## Installation
+
+Recommended environment:
+
+- Windows
 - Python 3.10 or 3.11
-- NVIDIA GPU recommended
-- Updated NVIDIA driver
+- NVIDIA GPU, tested on an RTX 3050 Laptop GPU with 4 GB VRAM
 
----
-
-## Setup
+Setup:
 
 ```bat
 setup.bat
 ```
 
-This:
-- creates `.venv`
-- installs the CUDA PyTorch build
-- installs dependencies
-- checks CUDA availability
-
-Manual alternative:
+Manual setup:
 
 ```bat
 python -m venv .venv
 .\.venv\Scripts\activate
-
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu124
 pip install -r requirements.txt
 ```
 
----
+## Dataset
 
-# Running the Pipeline
-
-## Full Pipeline
-
-```bat
-run_all.bat
-```
-
-Pipeline stages:
+Expected raw-data structure:
 
 ```text
-Preprocessing
-→ Training
-→ Grad-CAM
-→ Analysis
-→ Final Report
+Rice Disease/
+  2021/
+  2022/
+  2023/
+  2024/
+  2025/
+  2026/
 ```
 
----
+Recognized raw class folder names:
 
-## Useful Options
+- Brown Spot
+- Healthy Leaf
+- Rice Blast
+- Rice Tungro
 
-Skip preprocessing:
+Set `RICE_RAW_DIR` in `run_all.bat` or `run_all.ps1` so it points to the folder that directly contains the year folders.
+
+## Running The Current 10-Seed Pipeline
+
+Full 10-seed run:
 
 ```bat
-run_all.bat --skip-preprocess
+run_all.bat --runs 10 --start-seed 42
 ```
 
-Run only selected models:
+Equivalent explicit seed command:
 
 ```bat
-run_all.bat --models resnet50 dinov2
+python run_pipeline.py --seeds 42 43 44 45 46 47 48 49 50 51
 ```
 
-Run only one tuning mode:
+If the dataset has already been preprocessed:
 
 ```bat
-run_all.bat --modes full
+python run_pipeline.py --skip-preprocess --seeds 42 43 44 45 46 47 48 49 50 51
 ```
 
-Continue after failures:
+To rebuild only the multi-seed summary from completed seed folders, without training anything:
 
 ```bat
-run_all.bat --continue-on-error
+python run_pipeline.py --aggregate-only --seeds 42 43 44 45 46 47 48 49 50 51
 ```
 
----
+This is useful when an older seed run already exists and you want to include it in the final statistics.
 
-# Individual Stages
+## Output Layout
 
-Preprocess dataset:
+Each seed is isolated in its own result folder:
+
+```text
+results/
+  experiment_seed_42/
+    resnet50_full/
+    resnet50_partial/
+    densenet121_full/
+    densenet121_partial/
+    efficientnet_b0_full/
+    efficientnet_b0_partial/
+    dinov2_full/
+    dinov2_partial/
+    analysis/
+    gradcam/
+    SUMMARY.md
+  experiment_seed_43/
+  ...
+  experiment_seed_51/
+  MULTI_SEED_SUMMARY.md
+  multi_seed_summary.csv
+  multi_seed_summary.json
+```
+
+Important files:
+
+| File | Purpose |
+|---|---|
+| `results/MULTI_SEED_SUMMARY.md` | Human-readable 10-seed summary |
+| `results/multi_seed_summary.csv` | Per-seed metrics table for statistical analysis |
+| `results/multi_seed_summary.json` | Full machine-readable aggregate |
+| `results/experiment_seed_<seed>/SUMMARY.md` | Per-seed report |
+| `results/experiment_seed_<seed>/<model>_<mode>/summary.json` | Metrics for one trained run |
+| `results/experiment_seed_<seed>/<model>_<mode>/best.pth` | Best checkpoint for that run |
+
+## Individual Commands
+
+Preprocess only:
 
 ```bat
 python -m src.preprocess
 ```
 
-Train one model:
+Train one model/mode/seed:
 
 ```bat
-python -m src.train --model resnet50 --mode full
+set RICE_RESULTS_DIR=results\experiment_seed_42
+set RICE_EXPERIMENT_NAME=.
+python -m src.train --model resnet50 --mode full --seed 42
 ```
 
-Run Grad-CAM:
+Run Grad-CAM for one model inside a seed folder:
 
 ```bat
+set RICE_RESULTS_DIR=results\experiment_seed_42
+set RICE_EXPERIMENT_NAME=.
 python -m src.gradcam --model resnet50
 ```
 
-Generate analysis report:
+Analyze one seed folder:
 
 ```bat
+set RICE_RESULTS_DIR=results\experiment_seed_42
+set RICE_EXPERIMENT_NAME=.
 python -m src.analyze
 ```
 
----
+## Method Summary
 
-# Methodology
+Preprocessing:
 
-## Preprocessing Pipeline
-
-The preprocessing stage includes:
 - EXIF orientation correction
 - bilateral denoising
 - CLAHE contrast enhancement
 - center crop
-- resize to 224×224
+- resize to 224 x 224
 - JPEG quality 95
 
----
+Training:
 
-## Training Strategy
-
-Techniques used:
 - AdamW optimizer
-- cosine learning-rate scheduling
-- mixed precision (AMP)
+- cosine learning-rate schedule
+- mixed precision training
 - gradient accumulation
-- class-weighted loss
+- class-weighted cross entropy
 - label smoothing
 - early stopping
-- macro-F1 checkpoint selection
-
----
-
-## Evaluation Metrics
-
-The project evaluates:
-- Accuracy
-- Balanced Accuracy
-- Macro-F1
-- Precision / Recall
-- Per-class F1
-- Confusion matrices
-- Generalization gap
-- Future retention
-
----
-
-# Grad-CAM Analysis
-
-Grad-CAM compares how full and partial fine-tuning strategies focus on leaf regions.
-
-Each visualization includes:
-
-```text
-Input Image
-→ Partial Attention
-→ Full Attention
-→ Difference Map
-```
+- checkpoint selection by validation Macro-F1
+- deterministic seeding per run
 
 Metrics:
-- CAM correlation
-- Hot-region IoU
-- MAE
-- centroid shift
 
-Interesting observation:
+- accuracy
+- balanced accuracy
+- Macro-F1
+- precision and recall
+- per-class F1
+- confusion matrix
+- generalization gap
+- future retention
 
-| Model | CAM Correlation |
-|---|---:|
-| ResNet50 | 0.459 |
-| DenseNet121 | 0.447 |
-| EfficientNet-B0 | 0.321 |
-| DINOv2 | 0.044 |
+## GitHub Notes
 
-DINOv2 showed the largest attention redistribution between tuning modes.
+Large datasets, virtual environments, checkpoints, and full generated experiment folders should not be pushed to GitHub unless you intentionally use Git LFS or a release artifact. For normal repository updates, commit the source code, documentation, and compact summary files.
 
----
-
-# Outputs
+Recommended files to commit for the current update:
 
 ```text
-results/
-├── SUMMARY.md
-├── summary.csv
-├── analysis/
-├── gradcam/
-├── confusion matrices
-├── training curves
-└── per-model experiment folders
+README.md
+HOW_TO_RUN.md
+config.py
+run_pipeline.py
+src/train.py
+src/utils.py
+results/MULTI_SEED_SUMMARY.md
+results/multi_seed_summary.csv
+results/multi_seed_summary.json
 ```
 
-Important outputs:
-
-| File | Description |
-|---|---|
-| SUMMARY.md | Final report |
-| summary.csv | All experiment metrics |
-| generalization_gap.png | Temporal degradation |
-| partial_vs_full_f1.png | Tuning comparison |
-| per_class_f1.png | Per-class robustness |
-| gradcam_summary.png | Attention comparison |
-
----
-
-# Key Conclusions
-
-The experiments demonstrate that:
-
-- High validation accuracy does not guarantee future robustness.
-- Temporal distribution shift causes severe performance degradation.
-- CNNs strongly overfit historical distributions under full fine-tuning.
-- Frozen self-supervised transformer representations generalize better to future-year field data.
-- Future-year robustness should be considered explicitly in agricultural AI deployment.
-
----
-
-# Troubleshooting
+## Troubleshooting
 
 | Problem | Fix |
 |---|---|
-| CUDA out of memory | Reduce batch size in `config.py` |
-| GPU not detected | Update NVIDIA driver |
-| Dataset not found | Fix `RICE_RAW_DIR` |
-| Machine slows down | Reduce `RICE_NUM_WORKERS=2` |
-| Rebuild skipped | Use `--skip-preprocess` |
-
----
-
-# Citation
-
-If you use this project or build upon it, please cite or reference the repository.
-
----
-
-# License
-
-This project is intended for research and educational purposes.
-````
+| `run_pipeline.py` not found | Make sure the file exists in the project root and run the command from that root folder. |
+| CUDA out of memory | Reduce the relevant value in `BATCH_SIZE` in `config.py`. |
+| GPU not detected | Update the NVIDIA driver or pass `--allow-cpu` for a slow CPU run. |
+| Raw dataset not found | Fix `RICE_RAW_DIR` in `run_all.bat` or `run_all.ps1`. |
+| Need to include an old seed run | Put it under `results/experiment_seed_<seed>/` and run `python run_pipeline.py --aggregate-only --seeds ...`. |
